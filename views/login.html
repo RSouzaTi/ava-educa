@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | AVA Educa</title>
+
+    <script
+    type="module"
+    src="../controller/loginController.js"
+    ></script>
+</head>
+<body>
+    <main>
+        <h1>Entrar no AVA Educa</h1>
+
+        <form id="form-login">
+            <div>
+                <label for="email">E-Mail</label>
+                <input
+                type="email"
+                id="email"
+                name="email"
+                autocomplete="username"
+                required
+                >
+            </div>
+
+            <div>
+                <label for="senha">Senha</label>
+                <input
+                type="password"
+                id="senha"
+                name="senha"
+                autocomplete="current-password"
+                required
+                >
+            </div>
+            
+            <p id="feedback" role="alert"></p>
+
+            <button type="submit" id="botao-entrar">Entrar</button>
+
+            <a href="#" id="esqueci-senha">Esqueceu sua senha?</a>
+        </form>
+    </main>
+</body>
+</html>
