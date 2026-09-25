@@ -23,3 +23,61 @@ body {
   overflow-wrap: anywhere;
   min-width: 0;
 }
+.layout {
+  display: flex;
+}
+
+.menu-lateral {
+  width: 220px;
+  flex-shrink: 0;
+  padding: 16px;
+  box-sizing: border-box;
+  background-color: #eef2f6;
+}
+
+.menu-lateral nav {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.menu-lateral a,
+.menu-lateral button {
+  display: block;
+  padding: 12px;
+  border: 0;
+  border-radius: 6px;
+  background-color: #16324f;
+  color: white;
+  font: inherit;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.menu-lateral a:hover,
+.menu-lateral button:not(:disabled):hover {
+  background-color: #244d73;
+}
+
+.menu-lateral button:disabled {
+  background-color: #d8dee5;
+  color: #59636e;
+  cursor: not-allowed;
+}
+
+.conteudo {
+  flex: 1;
+  min-width: 0;
+  padding: 24px;
+}
+
+@media (max-width: 600px) {
+  .layout {
+    flex-direction: column;
+  }
+
+  .menu-lateral {
+    width: 100%;
+  }
+}
