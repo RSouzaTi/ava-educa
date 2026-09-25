@@ -7,6 +7,12 @@
     <script src="../js/cabecalho.js" defer></script>
     <script src="../js/menu.js" defer></script>
     <title>Dashboard | AVA Educa </title>
+
+<script
+ type="module"
+ src="../controller/dashboardController.js"
+ ></script>
+
 </head>
 <body>
   <header class="cabecalho">
@@ -29,7 +35,11 @@
 
   <main class="conteudo">
     <h1>Dashboard</h1>
-    <p>Login realizado com sucesso!</p>
+    <h2>Meus cursos</h2>
+
+    <p id="mensagem-cursos" role="status"></p>
+
+    <div id="lista-cursos" class="lista-cursos"></div>
   </main>
 </div>
     
