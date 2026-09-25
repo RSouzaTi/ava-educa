@@ -5,17 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/layout.css">
     <script src="../js/cabecalho.js" defer></script>
+    <script src="../js/menu.js" defer></script>
     <title>Dashboard | AVA Educa </title>
 </head>
 <body>
-    <header class="cabecalho">
-         <span class="cabecalho__sistema">AVA Educa</span>
-         <span class="cabecalho_usuario" id="nome-usuario"></span>
-    </header>
-        <main>
-        <h1>Dashboard</h1>
-        <p>Login realizado com sucesso!</p>
-    </main>
+  <header class="cabecalho">
+    <span class="cabecalho__sistema">AVA Educa</span>
+    <span class="cabecalho__usuario" id="nome-usuario"></span>
+  </header>
+
+   <div class="layout">
+  <aside class="menu-lateral">
+    <nav aria-label="Menu principal">
+      <a href="./dashboard.html">Dashboard</a>
+
+      <button type="button" disabled>Cursos</button>
+
+      <a href="./cadastro-alunos.html">Cadastro de Alunos</a>
+
+      <button type="button" id="botao-sair">Sair</button>
+    </nav>
+  </aside>
+
+  <main class="conteudo">
+    <h1>Dashboard</h1>
+    <p>Login realizado com sucesso!</p>
+  </main>
+</div>
     
 </body>
 </html>
