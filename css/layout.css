@@ -1,0 +1,25 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+.cabecalho {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 24px;
+  background-color: #16324f;
+  color: white;
+}
+
+.cabecalho__sistema {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.cabecalho__usuario {
+  text-align: right;
+  overflow-wrap: anywhere;
+  min-width: 0;
+}
