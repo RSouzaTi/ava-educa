@@ -1,3 +1,4 @@
+import { campo, valor, limparEndereco, consultarCep, estadoCep } from "../js/formularioAluno.js";
 import { Aluno } from "../models/Aluno.js";
 import { cadastrarAluno } from "../models/alunos.js";
 
@@ -8,104 +9,17 @@ const botaoSalvar = document.querySelector("#botao-salvar");
 const campCep = document.querySelector("#cep");
 
 
-const camposEndereco = [
-    "cidade",
-    "estado",
-    "logradouro",
-    "bairro"
-];
-
-let consultaAtual = 0;
-let cepConsultado = "";
 let salvando = false;
 
-function campo(nome) {
-  return formulario.elements.namedItem(nome);
-}
-
-function valor(nome) {
-    return campo(nome).value.trim();
-}
-
-function limparEndereco() {
-    for (const nome of camposEndereco ) {
-        campo(nome).value = "";
-    }
-}
-
-async function consultarCep() {
-    const numeroConsulta = ++consultaAtual;
-    const cepDigitado = valor("cep");
-
-    feedbackCep.textContent = "";
-
-      if (!cepDigitado) {
-        return true;
-}
-      if (!/^\d{5}-?\d{3}$/.test(cepDigitado)) {
-        feedbackCep.textContent = "informe um CEP com 8 numeros.";
-        return false;
- }
- const cep = cepDigitado.replace("-", "");
-
- if (cep === cepConsultado) {
-    return true;
- }
-
-    feedbackCep.textContent = "Consultando CEP...";
-
-   try{
-    const resposta = await fetch(
-      `https://viacep.com.br/ws/${cep}/json/`
-    );
-
-    if (!resposta.ok) {
-        throw new Error ("Não foi possível consultar o CEP.");
-    }
-
-const endereco = await resposta.json();
-
-    if(numeroConsulta !== consultaAtual) {
-        return false;
-    }
-    if (endereco.erro) {
-        throw new Error("CEP não encontrado.");
-
-    }
-
-     campo("cidade").value = endereco.localidade ?? "";
-     campo("estado").value = endereco.uf ?? "";
-     campo("logradouro").value = endereco.logradouro ?? "";
-     campo("bairro").value = endereco.bairro ?? "";
-
-     cepConsultado = cep;
-     feedbackCep.textContent =  "Endereço consultado.";
-
-     return true;
-    } catch (erro) {
-        if (numeroConsulta !== consultaAtual) {
-            return false;
-    }
-
-    feedbackCep.textContent = 
-    erro instanceof TypeError
-    ? "Falha de conexão ao consultar o CEP. Tente novamente."
-    :erro.message;
-
-    return false;
-
-    }
- }
-
     campCep.addEventListener("input", () => {
-    consultaAtual++;
-    cepConsultado= "";
+    estadoCep.consultaAtual++;
+    estadoCep.cepConsultado = "";
     feedbackCep.textContent = "";
-    limparEndereco();
+    limparEndereco(formulario);
  });
 
     campCep.addEventListener("blur", () => {
-    consultarCep();
+    consultarCep(formulario, feedbackCep);
  });
 
     formulario.addEventListener("submit", async (event) => {
@@ -128,14 +42,14 @@ const endereco = await resposta.json();
         return;
     }
 
-    if (valor("nome").length < 4 || valor("nome").length > 80) {
+    if (valor(formulario, "nome").length < 4 || valor(formulario, "nome").length > 80) {
         feedback.textContent = "O nome deve ter entre 4 e 80 caracteres.";
-        campo("nome").focus();
+        campo(formulario, "nome").focus();
         return;
     }
 
     const nascimento = window.moment(
-        valor("dataNascimento"),
+        valor(formulario, "dataNascimento"),
         "DD/MM/YYYY",
         true
     );
@@ -157,21 +71,21 @@ const endereco = await resposta.json();
         "Informe uma data válida em DD/MM/AAAA, posterior a " +
         "01/01/1990 e anterior a hoje.";
 
-        campo("dataNascimento").focus();
+        campo(formulario, "dataNascimento").focus();
         return;
 
     }
 
         // validação de formato; não calcula os digitos verificadores.
-        if (!/^(?:\d{11}|\d{3}\.\d{3}\.\d{3}-\d{2})$/.test(valor("cpf"))) {
+        if (!/^(?:\d{11}|\d{3}\.\d{3}\.\d{3}-\d{2})$/.test(valor(formulario, "cpf"))) {
             feedback.textContent = 
             "informe o CPF com 11 número ou no formato 000.000.000-00.";
 
-            campo("cpf").focus();
+            campo(formulario, "cpf").focus();
             return
         }
         
-        const telefone = valor("telefone");
+        const telefone = valor(formulario, "telefone");
         const numerosTelefone = telefone.replace(/\D/g, "");
         
         if (
@@ -179,7 +93,7 @@ const endereco = await resposta.json();
              !/^\d{10,11}$/.test(numerosTelefone)
         ) {
             feedback.textContent = "Informe o telefone com DDD e 10 ou 11 número.";
-            campo("telefone").focus();
+            campo(formulario, "telefone").focus();
             return;
         }
 
@@ -195,7 +109,7 @@ const endereco = await resposta.json();
         }
 
         try {
-            const cepValido = await consultarCep();
+            const cepValido = await consultarCep(formulario, feedbackCep);
 
             if (!cepValido) {
                 feedback.textContent = "resolva a consulta do CEP antes de salvar.";
@@ -203,26 +117,26 @@ const endereco = await resposta.json();
             }
 
             const aluno = new Aluno({
-                nome: valor("nome"),
-                genero: valor("genero"),
+                nome: valor(formulario, "nome"),
+                genero: valor(formulario, "genero"),
                 dataNascimento: nascimento.format("YYYY-MM-DD"),
-                cpf: valor("cpf"),
-                telefone: valor("telefone"),
-                email: valor("email"),
-                cep: valor("cep"),
-                cidade: valor("cidade"),
-                estado: valor("estado"),
-                logradouro: valor("logradouro"),
-                numero: valor("numero"),
-                complemento: valor("complemento"),
-                bairro: valor("bairro"),
+                cpf: valor(formulario, "cpf"),
+                telefone: valor(formulario, "telefone"),
+                email: valor(formulario, "email"),
+                cep: valor(formulario, "cep"),
+                cidade: valor(formulario, "cidade"),
+                estado: valor(formulario, "estado"),
+                logradouro: valor(formulario, "logradouro"),
+                numero: valor(formulario, "numero"),
+                complemento: valor(formulario, "complemento"),
+                bairro: valor(formulario, "bairro"),
             });
 
         const mensagem = await cadastrarAluno(aluno);
 
             formulario.reset();
-            consultaAtual++;
-            cepConsultado = "";
+            estadoCep.consultaAtual++;
+            estadoCep.cepConsultado = "";
             feedbackCep.textContent = "";
             feedback.textContent = mensagem;
 
@@ -244,4 +158,3 @@ const endereco = await resposta.json();
             feedback.textContent = 
             "Não foi possivel carregar o Moment. Verifique a conexão e atualize a página"
         }
-
