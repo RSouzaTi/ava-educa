@@ -72,7 +72,7 @@ body {
   padding: 24px;
 }
 
-@media (max-width: 600px) {
+@media (width < 768px) {
   .layout {
     flex-direction: column;
   }
@@ -80,6 +80,7 @@ body {
   .menu-lateral {
     width: 100%;
   }
+
 }
 
 .lista-cursos {
@@ -107,3 +108,126 @@ body {
   color: #394957;
 }
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+input,
+select,
+button {
+  font: inherit;
+}
+
+input,
+select {
+  width: 100%;
+  min-width: 0;
+  padding: 0.75rem;
+  border: 1px solid #8b98a5;
+  border-radius: 0.375rem;
+  background-color: white;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.375rem;
+}
+
+input:focus-visible,
+select:focus-visible,
+button:focus-visible,
+a:focus-visible {
+  outline: 3px solid #2870b5;
+  outline-offset: 3px;
+}
+
+.pagina-login {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background-color: #eef2f6;
+}
+
+.pagina-login main {
+  width: 100%;
+  max-width: 28rem;
+  padding: clamp(1rem, 4vw, 2rem);
+  border-radius: 0.75rem;
+  background-color: white;
+}
+
+.pagina-login h1 {
+  font-size: clamp(1.5rem, 5vw, 2rem);
+}
+
+#form-login {
+  display: grid;
+  gap: 1rem;
+}
+
+#form-aluno {
+  width: 100%;
+  max-width: 65rem;
+  display: grid;
+  gap: 1.25rem;
+}
+
+#form-aluno fieldset {
+  min-width: 0;
+  margin: 0;
+  padding: 1rem;
+  border: 1px solid #8b98a5;
+  border-radius: 0.5rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1rem;
+}
+
+#form-aluno fieldset > div {
+  min-width: 0;
+}
+
+#form-aluno legend {
+  padding: 0 0.5rem;
+  font-weight: bold;
+}
+
+#feedback-cep {
+  grid-column: 1 / -1;
+}
+
+#feedback,
+#feedback-aluno,
+#feedback-cep {
+  overflow-wrap: anywhere;
+}
+
+#botao-entrar,
+#botao-salvar {
+  min-height: 2.75rem;
+  padding: 0.75rem 1.5rem;
+  border: 0;
+  border-radius: 0.375rem;
+  background-color: #16324f;
+  color: white;
+  cursor: pointer;
+}
+
+#botao-entrar:disabled,
+#botao-salvar:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (min-width: 768px) {
+  #form-aluno fieldset {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  #botao-salvar {
+    justify-self: start;
+  }
+}
