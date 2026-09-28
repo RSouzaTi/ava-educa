@@ -96,3 +96,4 @@ Após atender ao escopo avaliativo, possíveis evoluções incluem:
 - Ativação da área de Cursos e ampliação da gestão de alunos.
 - Filtros e busca nas listagens.
 - Aprimoramentos de acessibilidade e testes automatizados das regras de validação.
+
