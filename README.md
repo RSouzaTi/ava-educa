@@ -34,7 +34,7 @@ ava-educa/
 ├── views/         # Vazia; reservada para as telas
 ├── index.html     # Estrutura HTML inicial, sem conteúdo
 └── README.md
-```
+```  
 
 Pastas vazias não são versionadas pelo Git e podem não aparecer em um clone até receberem arquivos.
 
