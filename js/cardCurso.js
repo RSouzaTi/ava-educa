@@ -1,5 +1,6 @@
 import { formatarData } from "./datas.js";
 
+// Cria o card com textContent para exibir os dados como texto, sem interpretar HTML.
 export function criarCard(curso) {
     const card = document.createElement("article");
     card.classList.add("card-curso");

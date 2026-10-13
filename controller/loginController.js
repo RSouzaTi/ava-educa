@@ -7,6 +7,7 @@ const feedback = document.querySelector("#feedback");
 const botaoEntrar = document.querySelector("#botao-entrar");
 const linkEsqueciSenha = document.querySelector("#esqueci-senha");
 
+// Trata o envio sem recarregar a página e apresenta a rejeição da autenticação.
 formulario.addEventListener("submit", async (event) => {
   event.preventDefault();
 
@@ -17,6 +18,7 @@ formulario.addEventListener("submit", async (event) => {
   try {
     const usuario = await login(campoEmail.value, campoSenha.value);
 
+    // A senha serve à comparação local e não precisa ser armazenada na sessão.
     const { senha, ...usuarioSemSenha } = usuario;
 
     sessionStorage.setItem(

@@ -1,3 +1,4 @@
+// Reúne os dados do formulário; o identificador será atribuído no cadastro.
 export class Aluno {
     constructor ({
       nome,

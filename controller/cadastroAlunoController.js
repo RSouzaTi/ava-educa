@@ -11,6 +11,7 @@ const campCep = document.querySelector("#cep");
 
 let salvando = false;
 
+    // Uma edição invalida tanto o endereço anterior quanto consultas ainda em andamento.
     campCep.addEventListener("input", () => {
     estadoCep.consultaAtual++;
     estadoCep.cepConsultado = "";
@@ -25,6 +26,7 @@ let salvando = false;
     formulario.addEventListener("submit", async (event) => {
     event.preventDefault();
 
+    // Evita cadastros duplicados enquanto a consulta e o salvamento estão pendentes.
     if (salvando) {
         return;
     }
@@ -38,6 +40,7 @@ let salvando = false;
         }
     }
 
+    // Reaproveita required, limites e validação de e-mail definidos no HTML.
     if (!formulario.reportValidity()) {
         return;
     }
@@ -48,6 +51,7 @@ let salvando = false;
         return;
     }
 
+    // O modo estrito rejeita datas impossíveis e formatos diferentes de DD/MM/YYYY.
     const nascimento = window.moment(
         valor(formulario, "dataNascimento"),
         "DD/MM/YYYY",
@@ -60,6 +64,7 @@ let salvando = false;
         true
     );
 
+    // Os limites são exclusivos: nem 01/01/1990 nem o dia atual são aceitos.
     const hoje = window.moment().startOf("day");
 
     if(
@@ -116,6 +121,7 @@ let salvando = false;
                 return;
             }
 
+            // Converte a data para o formato da listagem e inicializa a classe do RF11.
             const aluno = new Aluno({
                 nome: valor(formulario, "nome"),
                 genero: valor(formulario, "genero"),
@@ -143,6 +149,7 @@ let salvando = false;
         }catch (erro) {
         feedback.textContent = erro.message;
         }finally {
+            // Restaura a interface mesmo em caso de erro ou retorno por CEP inválido.
             for (const grupo of grupos) {
                 grupo.disabled = false;
             }
@@ -152,6 +159,7 @@ let salvando = false;
             botaoSalvar.textContent = "Salvar";
         }
     });
+        // Só habilita Salvar quando a biblioteca necessária à validação foi carregada.
         if (typeof window.moment === "function") {
             botaoSalvar.disabled = false;
         }else {

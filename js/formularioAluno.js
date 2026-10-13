@@ -5,28 +5,34 @@ const camposEndereco = [
     "bairro"
 ];
 
+// Compartilha o controle de respostas antigas e do último CEP consultado com sucesso.
 export const estadoCep = { consultaAtual: 0, cepConsultado: "" };
 
+// Localiza os controles pelo atributo name usado no formulário.
 export function campo(formulario, nome) {
   return formulario.elements.namedItem(nome);
 }
 
+// Padroniza a leitura, desconsiderando espaços nas extremidades.
 export function valor(formulario, nome) {
     return campo(formulario, nome).value.trim();
 }
 
+// Limpa os campos preenchidos pela API, preservando número e complemento manuais.
 export function limparEndereco(formulario) {
     for (const nome of camposEndereco ) {
         campo(formulario, nome).value = "";
     }
 }
 
+// Retorna se o cadastro pode prosseguir e informa falhas sem propagar a exceção.
 export async function consultarCep(formulario, feedbackCep) {
     const numeroConsulta = ++estadoCep.consultaAtual;
     const cepDigitado = valor(formulario, "cep");
 
     feedbackCep.textContent = "";
 
+      // O endereço é opcional; um CEP informado precisa passar pela validação.
       if (!cepDigitado) {
         return true;
 }
@@ -36,6 +42,7 @@ export async function consultarCep(formulario, feedbackCep) {
  }
  const cep = cepDigitado.replace("-", "");
 
+ // Evita repetir a consulta ao salvar depois de consultar o mesmo CEP no blur.
  if (cep === estadoCep.cepConsultado) {
     return true;
  }
@@ -53,9 +60,11 @@ export async function consultarCep(formulario, feedbackCep) {
 
 const endereco = await resposta.json();
 
+    // Descarta respostas atrasadas caso o usuário já tenha alterado o CEP.
     if(numeroConsulta !== estadoCep.consultaAtual) {
         return false;
     }
+    // O ViaCEP pode responder HTTP 200 mesmo quando o CEP não existe.
     if (endereco.erro) {
         throw new Error("CEP não encontrado.");
 
